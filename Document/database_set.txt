@@ -1,0 +1,174 @@
+/etc/my.cnf 다음내용 추가
+
+[client]
+default-character-set=utf8
+
+[mysqld]
+character-set-server=utf8
+collation-server=utf8_general_ci
+init_connect=set collation_connection=utf8_general_ci
+init_connect=set names utf8
+
+character-set-client-handshake=TRUE
+skip-character-set-client-handshake
+
+
+mysql> status
+
+mysql> show variables like 'char%';
++--------------------------+----------------------------+
+| Variable_name            | Value                      |
++--------------------------+----------------------------+
+| character_set_client     | utf8                       |
+| character_set_connection | utf8                       |
+| character_set_database   | utf8                       |
+| character_set_filesystem | binary                     |
+| character_set_results    | utf8                       |
+| character_set_server     | utf8                       |
+| character_set_system     | utf8                       |
+| character_sets_dir       | /usr/share/mysql/charsets/ |
++--------------------------+----------------------------+
+
+
+-- 백업
+mysqldump -uroot -p123456 테이블명 > 테이블명.sql
+
+-- 복구
+> create database 테이블명;
+
+$ mysql -uroot -p123456 테이블명 < 테이블명.sql
+
+
+
+* mysql -- euckr에서 uft8로 변경하기
+
+mysql>SET character_set_database = utf8;
+mysql>SET character_set_server = utf8;
+mysql>SET character_set_client = utf8;
+mysql>SET character_set_results = utf8;
+mysql>SET character_set_connection = utf8;
+mysql>ALTER DATABASE ems50 DEFAULT CHARACTER SET utf8;
+commit;
+status로 확인
+
+
+
+
+
+
+mysql> show create table charset_test;
+
++--------------+-------------------------------------------------------------------------------------------------------+
+
+| Table        | Create Table                                                                                          |
+
++--------------+-------------------------------------------------------------------------------------------------------+
+
+| charset_test | CREATE TABLE `charset_test` (
+
+  `name` varchar(100) DEFAULT NULL
+
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 |
+
++--------------+-------------------------------------------------------------------------------------------------------+
+
+1 row in set (0.00 sec)
+
+
+
+
+mysql> set names latin1;
+
+Query OK, 0 rows affected (0.00 sec)
+
+
+
+
+mysql> select * from charset_test;
+
++--------------+
+
+| name         |
+
++--------------+
+
+| 가나다라 |
+
++--------------+
+
+1 row in set (0.00 sec)
+
+
+
+
+
+mysql> set names utf8;
+
+Query OK, 0 rows affected (0.00 sec)
+
+
+
+
+mysql> select * from charset_test;
+
++-----------------------------+
+
+| name                        |
+
++-----------------------------+
+
+| e°€e‚˜e‹¤e¼ |
+
++-----------------------------+
+
+1 row in set (0.00 sec)
+
+
+
+mysql> alter table charset_test convert to charset latin1;
+
+Query OK, 1 row affected (0.38 sec)
+
+Records: 1  Duplicates: 0  Warnings: 0
+
+
+
+mysql> alter table charset_test modify name blob;
+
+Query OK, 1 row affected (0.05 sec)
+
+Records: 1  Duplicates: 0  Warnings: 0
+
+
+
+mysql> alter table charset_test modify name varchar(100) charset utf8;
+
+Query OK, 1 row affected (0.04 sec)
+
+Records: 1  Duplicates: 0  Warnings: 0
+
+
+mysql> alter table charset_test convert to charset utf8;
+
+Query OK, 1 row affected (0.04 sec)
+
+Records: 1  Duplicates: 0  Warnings: 0
+
+
+mysql> select * from charset_test;
+
++--------------+
+
+| name         |
+
++--------------+
+
+| 가나다라 |
+
++--------------+
+
+1 row in set (0.01 sec)
+
+
+mysql> 
+

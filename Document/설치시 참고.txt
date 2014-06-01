@@ -1,0 +1,10 @@
+증상-------------------------------
+
+신규프로젝트(공통컴포넌트) 생성 후 첫 컴파일 오류
+context-security.xml 파일의 <custom-filter before="FILTER_SECURITY_INTERCEPTOR" /> 부분에 해당하는 오류
+Error occured processing XML 'org.springframework.beans.factory.support.BeanDefinitionBuilder.addConstructorArg(Ljava/lang/Object;)Lorg/springframework/beans/factory/support/BeanDefinitionBuilder;'. See Error Log for more details context-security.xml /eGovBisiness/src/main/resources/egovframework/spring/com line 53 Spring Beans Problem
+
+이유 및 조치-----------------------
+eclipse의 spring 기능 상에 spring security 스키마를 정상적으로 처리하지 못해 발생되는 문제입니다. 실제 실행시에는 문제가 되지 않지만, eclipse에 오류를 없애시려면 프로젝트 선택 후 Spring Tools -> Remove Spring Project Nature로 .. spring tool 기능을 비활성화 시키시면 됩니다.
+[출처 : 전자정부 오픈커뮤니티 by 딸기아빠]
+
